@@ -96,8 +96,8 @@ public:
 
     // actuator timing
 
-    unsigned long pumpStopTime = timestamp() + 60;
-    unsigned long pumpResetTime = timestamp() + 120;
+    unsigned long pumpStartTime = timestamp() + 10800;
+    unsigned long pumpResetTime = timestamp() + 12600;
     unsigned int powermode = 2;
 
     // settings

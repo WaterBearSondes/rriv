@@ -248,35 +248,35 @@ void Datalogger::loop()
   { 
     //AE actuate hook before measurement could go here
     
-    debug(pumpStopTime);
+    debug(pumpStartTime);
     debug(pumpResetTime);
     unsigned long timeCheck = timestamp();
     
 
     notify(timeCheck);
-    notify(pumpStopTime);
+    notify(pumpStartTime);
 
     if(powermode==2) {
-    digitalWrite(GPIO_PIN_6, HIGH);
+    digitalWrite(GPIO_PIN_6, LOW);
     powermode=1;
     notify("moving to mode 1");
     notify(powermode);
   }
 
-  if(timeCheck>=pumpStopTime&&powermode==1) {
+  if(timeCheck>=pumpStartTime&&powermode==1) {
     powermode=0;
     notify("moving to mode 0");
     notify(powermode);
-    digitalWrite(GPIO_PIN_6, LOW);
+    digitalWrite(GPIO_PIN_6, HIGH);
   }
 
   if(timeCheck>=pumpResetTime&&powermode==0) {
     powermode=1;
     notify("moving to mode 1");
     notify(powermode);
-    digitalWrite(GPIO_PIN_6, HIGH);
-    pumpStopTime = timestamp() + 60;
-    pumpResetTime = timestamp() + 120;
+    digitalWrite(GPIO_PIN_6, LOW);
+    pumpStartTime = timestamp() + 10800;
+    pumpResetTime = timestamp() + 12600;
   }  
   
   //delay(10000);
