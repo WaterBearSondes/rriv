@@ -136,6 +136,7 @@ public:
     void reloadSensorConfigurations(); // for dev & debug
     void stopAndAwaitTrigger(); // public for dev & debug
 
+
 private:
     // modules
     WaterBear_FileSystem *fileSystem;

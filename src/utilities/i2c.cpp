@@ -121,8 +121,9 @@ bool scanIC2(TwoWire *wire, int searchAddress)
 
 void enableI2C1()
 {
-  
+  // WireOne.end();
   i2c_disable(I2C1);
+  // delay(1000);
   i2c_master_enable(I2C1, 0, 0);
   debug(F("Enabled I2C1"));
 

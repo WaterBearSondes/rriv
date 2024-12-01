@@ -39,6 +39,7 @@ void setup(void)
 {
   startSerial2();
   Monitor::instance()->debugToSerial = true;
+  gpioPinOff(BOOST_5V_ENABLE); //turn this off, 5v boost likes to run parasitically, making problems.
 
   workspace();
 
@@ -54,6 +55,24 @@ void setup(void)
   // turn on switched power to read from EEPROM
   setupSwitchedPower();
   cycleSwitchablePower();
+
+
+
+  // extraResetExADC();
+
+  // need to have the ex adc power usable here already
+  pinMode(EXTERNAL_ADC_ENABLE, OUTPUT_OPEN_DRAIN);
+  digitalWrite(EXTERNAL_ADC_ENABLE, HIGH); // initialize to 'off'
+  delay(500);
+
+  gpioPinOn(BOOST_5V_ENABLE); // burn on 5v boost for exadc
+  delay(500);
+
+  enableExADC(); // turn on the power supply for exadc
+  delay(500);
+
+  // resetExADC();
+
   enableI2C1();
   delay(500);
 

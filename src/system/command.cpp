@@ -779,6 +779,29 @@ void CommandInterface::_reloadSensorConfigurations()
   this->datalogger->reloadSensorConfigurations();
 }
 
+void CommandInterface::_resetExADC()
+{
+  extraResetExADC();
+}
+
+void resetExADC(int arg_cnt, char**args)
+{
+  CommandInterface::instance()->_resetExADC();
+}
+
+void setExADCPower(int arg_cnt, char**args){
+  if(arg_cnt < 2){
+    invalidArgumentsMessage(F("set-adc-power INT"));
+    return;
+  }
+
+  int on = atoi(args[1]);
+  if(on){
+    enableExADC();
+  } else {
+    disableExADC();
+  }
+}
 
 
 void CommandInterface::setup(){
@@ -831,6 +854,9 @@ void CommandInterface::setup(){
   cmdAdd("airpump-test", airpumptest);
   cmdAdd("gpio-test", gpiotest);
   cmdAdd("airpump-test", airpumptest);
+
+  cmdAdd("reset-adc", resetExADC);
+  cmdAdd("set-adc-power", setExADCPower);
 
   
   // cmdAdd("step-test", steptest);

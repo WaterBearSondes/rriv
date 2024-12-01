@@ -31,7 +31,7 @@
 // extern TwoWire WireTwo;
 #define WireTwo Wire1
 
-#define SWITCHED_POWER_ENABLE PC6
+#define SWITCHED_POWER_ENABLE PC5 // was PC6
 #define SD_ENABLE_PIN PC8
 
 #define BLE_COMMAND_MODE_PIN PB5
@@ -76,7 +76,8 @@
 
 
 
-#define EXADC_RESET PC5
+#define EXADC_RESET PA4 // was PC5
+#define EXTERNAL_ADC_ENABLE PC6
 
 // Bluefruit on SPI
 #define BLUEFRUIT_SPI_SCK   PB13
@@ -92,5 +93,10 @@ void startSerial2();
 void setupInternalRTC();
 void setupHardwarePins();
 int getBatteryValue();
+
+void enableExADC();
+void disableExADC();
+void resetExADC();
+void extraResetExADC();
 
 #endif

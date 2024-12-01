@@ -124,11 +124,46 @@ void setupHardwarePins()
   //pinMode(PA2, OUTPUT); // USART2_TX/ADC12_IN2/TIM2_CH3
   //pinMode(PA3, INPUT); // USART2_RX/ADC12_IN3/TIM2_CH4
 
-  pinMode(PC5, OUTPUT); // external ADC reset
-  digitalWrite(PC5, HIGH);
+  pinMode(EXADC_RESET, OUTPUT); // external ADC reset
+  digitalWrite(EXADC_RESET, HIGH);
+
+  // we can't do this here, because it's already needed by initial setup in main()
+  // pinMode(EXTERNAL_ADC_ENABLE, OUTPUT_OPEN_DRAIN);
+  // digitalWrite(EXTERNAL_ADC_ENABLE, HIGH); // initialize to 'off'
 }
 
 int getBatteryValue()
 {
   return analogRead(PB0);
+}
+
+void enableExADC(){
+  digitalWrite(EXTERNAL_ADC_ENABLE, LOW);  // LOW is 'on' for open drain
+}
+
+void disableExADC(){
+  digitalWrite(EXTERNAL_ADC_ENABLE, HIGH);  // HIGH is 'off' for open drain
+}
+
+void resetExADC() {
+
+  debug("reset exADC");
+  // Reset external ADC (if it's installed)
+  delay(1); // delay > 50ns before applying ADC reset
+  digitalWrite(EXADC_RESET,LOW); // reset is active low
+  delay(1); // delay > 10ns after starting ADC reset
+  digitalWrite(EXADC_RESET,HIGH);
+  delay(100); // Wait for ADC to start up
+
+}
+
+void extraResetExADC() {
+    debug("adc reset exADC");
+  // Reset external ADC (if it's installed)
+  delay(1000); // delay > 50ns before applying ADC reset
+  digitalWrite(EXADC_RESET,LOW); // reset is active low
+  delay(1000); // delay > 10ns after starting ADC reset
+  digitalWrite(EXADC_RESET,HIGH);
+  delay(1000); // Wait for ADC to start up
+
 }

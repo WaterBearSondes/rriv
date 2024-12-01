@@ -133,6 +133,7 @@ class CommandInterface
 
     void _airpumptest();
 
+    void _resetExADC();
 
 
 

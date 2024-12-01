@@ -22,7 +22,7 @@
 
 void setupSwitchedPower()
 {
-  debug("setupSP");
+  debug("setupSP0");
   // enable pin on switchable integrated 3v3 boost converter
   pinMode(SWITCHED_POWER_ENABLE, OUTPUT);
   digitalWrite(SWITCHED_POWER_ENABLE, LOW);
@@ -44,7 +44,7 @@ void cycleSwitchablePower()
 {
   debug(F("Cycle switched power"));
   disableSwitchedPower();
-  delay(500);
+  delay(1000);
   enableSwitchedPower();
-  delay(500);
+  delay(1000);
 }

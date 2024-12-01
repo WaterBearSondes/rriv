@@ -1082,26 +1082,45 @@ void Datalogger::initializeFilesystem()
   fileSystemWriteCache = new WriteCache(fileSystem);
 }
 
+
+// void Datalogger::advancedResetExADC() {
+//     debug("adc reset exADC");
+//   // Reset external ADC (if it's installed)
+//   delay(1000); // delay > 50ns before applying ADC reset
+//   digitalWrite(EXADC_RESET,LOW); // reset is active low
+//   delay(1000); // delay > 10ns after starting ADC reset
+//   digitalWrite(EXADC_RESET,HIGH);
+//   delay(1000); // Wait for ADC to start up
+
+// }
+
 void Datalogger::powerUpSwitchableComponents()
 {
+  gpioPinOff(BOOST_5V_ENABLE);
+  delay(250);
+
+  disableExADC();
+
   cycleSwitchablePower();
+  Serial2.println("starting up exADC");
+  Serial2.println("1:");
 
   // turn on 5v booster for exADC reference voltage, needs the delay
   // might be possible to turn off after exADC discovered, not certain.
   gpioPinOn(BOOST_5V_ENABLE);
-  // gpioPinOn(GPIO_PIN_3);
-  
   delay(250);
+  Serial2.println("1:");
+
+  enableExADC(); // we assume that the pins for this have already been set up
+                 // but this won't be the case if the board has gone to sleep.
+  delay(250);
+    Serial2.println("1:r");
+
+  resetExADC(); // reset exADC in case it's crashed and not power cycled.
+  Serial2.println("gonna enable i2c1");
   enableI2C1();
   enableI2C2();
-
-  debug("reset exADC");
-  // Reset external ADC (if it's installed)
-  delay(1); // delay > 50ns before applying ADC reset
-  digitalWrite(EXADC_RESET,LOW); // reset is active low
-  delay(1); // delay > 10ns after starting ADC reset
-  digitalWrite(EXADC_RESET,HIGH);
-  delay(100); // Wait for ADC to start up
+  resetExADC();
 
   bool externalADCInstalled = scanIC2(&Wire, 0x2f); // use datalogger setting once method is moved to instance method
   if (externalADCInstalled)
