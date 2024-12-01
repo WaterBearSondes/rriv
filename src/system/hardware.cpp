@@ -21,6 +21,7 @@
 #include <libmaple/pwr.h>
 #include "configuration.h"
 #include "system/logs.h"
+#include "adc.h"
 
 void gpioPinOff(uint8 pin)
 {
@@ -127,7 +128,7 @@ void setupHardwarePins()
   pinMode(EXADC_RESET, OUTPUT); // external ADC reset
   digitalWrite(EXADC_RESET, HIGH);
 
-  // we can't do this here, because it's already needed by initial setup in main()
+  // we can't do this here, because it's already needed by initial setup in main
   // pinMode(EXTERNAL_ADC_ENABLE, OUTPUT_OPEN_DRAIN);
   // digitalWrite(EXTERNAL_ADC_ENABLE, HIGH); // initialize to 'off'
 }
@@ -166,4 +167,10 @@ void extraResetExADC() {
   digitalWrite(EXADC_RESET,HIGH);
   delay(1000); // Wait for ADC to start up
 
+  AD7091R * externalADC = new AD7091R();
+  externalADC->configure();
+  externalADC->enableChannel(0);
+  externalADC->enableChannel(1);
+  externalADC->enableChannel(2);
+  externalADC->enableChannel(3);
 }
