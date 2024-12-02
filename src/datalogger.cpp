@@ -1258,6 +1258,7 @@ void Datalogger::stopAndAwaitTrigger()
   componentsBurstMode();
   fileSystem->reopenFileSystem();
 
+  // TODO: remove this code block , it is redundant to prepareForUserInteraction
   if (awakenedByUser == true)
   {
     awakeTime = timestamp();
